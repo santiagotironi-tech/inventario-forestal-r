@@ -4,7 +4,7 @@ library(dplyr)
 library(readxl)   
 library(openxlsx)
 
-# 1. Cargar datos ---------------------------------------------------------
+# 1. Cargar datos
 # NOTA: Modifica esta ruta con la ubicación de tu archivo local
 ruta <- "/Users/santiagotironi/downloads/datLab05.xlsx" 
 datos <- read_excel(ruta)
@@ -19,14 +19,14 @@ Rodales <- sample(datos$idRodal, 6, replace = FALSE)
 # Seleccionar los datos de esos 6 rodales para trabajar
 Muestra <- filter(datos, idRodal %in% Rodales)
 
-# 2. Cálculo de Superficie Total ------------------------------------------
+# 2. Cálculo de Superficie Total 
 # Distinguimos cada unidad de muestreo (UM) para no duplicar superficies
 SupRodal <- distinct(Muestra, idRodal, idUM, supUM)
 SupTotalm2 <- summarise(SupRodal, sum_sup = sum(supUM))
 SupTotalHa <- (SupTotalm2$sum_sup) / 10000
 
 
-# 3. Estructura Diamétrica (Tabla de Rodal) -------------------------------
+# 3. Estructura Diamétrica (Tabla de Rodal) 
 # Clases de 4 cm de ancho y marcas de clase de 6 a 66 cm
 Clases <- seq(6, 66, by = 4)
 LimitClases <- seq(4, 68, by = 4)
@@ -46,7 +46,7 @@ Tabla_rodal$Nha <- Tabla_rodal$N_muestra / SupTotalHa
 Tabla_rodal$Nha <- round(Tabla_rodal$Nha, 3)
 
 
-# 4. Ajuste del Modelo de Altura ------------------------------------------
+# 4. Ajuste del Modelo de Altura 
 # Filtrar árboles tipo y transformar variables para el modelo de Petterson modificado
 Datos_modelo <- filter(Muestra, altura > 10)
 Datos_modelo$Inv_dap <- (Datos_modelo$dap)^(-0.5)
@@ -68,7 +68,7 @@ Tabla_rodal$h <- exp(B0 + B1 * Tabla_rodal$clas_diam^(-0.5))
 Tabla_rodal$h <- round(Tabla_rodal$h, 3)
 
 
-# 5. Cálculo de Existencias (G, V y V10) por Hectárea ---------------------
+# 5. Cálculo de Existencias (G, V y V10) por Hectárea 
 # Área basal por hectárea (Gha)
 Tabla_rodal$Gha <- (pi/4 * (Tabla_rodal$clas_diam/100)^2) * (Tabla_rodal$Nha)
 Tabla_rodal$Gha <- round(Tabla_rodal$Gha, 3)
@@ -85,7 +85,7 @@ Tabla_rodal$V10 <- Tabla_rodal$Vha * Tabla_rodal$R
 Tabla_rodal$V10 <- round(Tabla_rodal$V10, 3)
 
 
-# 6. Parámetros Estadísticos del Rodal ------------------------------------
+# 6. Parámetros Estadísticos del Rodal 
 Parametros_rod <- data.frame(
   NhaT         = sum(Tabla_rodal$Nha),
   GhaT         = sum(Tabla_rodal$Gha),
@@ -97,7 +97,7 @@ Parametros_rod <- data.frame(
 )
 
 
-# 7. Preparación de Datos para Exportar -----------------------------------
+# 7. Preparación de Datos para Exportar 
 # A. Tabla de rodal
 tabla_export <- data.frame(
   "d(k)"    = Tabla_rodal$clas_diam,
@@ -155,7 +155,7 @@ hoja2 <- data.frame(
 )
 
 
-# 8. Generación del Archivo Excel de Salida -------------------------------
+# 8. Generación del Archivo Excel de Salida 
 wb <- createWorkbook()
 addWorksheet(wb, "Resultados")
 addWorksheet(wb, "Datos")

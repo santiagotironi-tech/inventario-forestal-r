@@ -2,7 +2,7 @@
 
 Este repositorio contiene un script automatizado en **R** diseñado para el procesamiento y análisis cuantitativo de datos provenientes de inventarios forestales. El flujo de trabajo abarca desde la estructuración de tablas de rodal por clases diamétricas hasta el ajuste de modelos dasonómicos y la cubicación de existencias por hectárea.
 
-## 📊 Funcionalidades del Script
+## Funcionalidades del Script
 
 El código transforma registros dasométricos a nivel de árbol individual en parámetros agregados a nivel de rodal escalados a la hectárea ($/ha$):
 
@@ -16,7 +16,7 @@ El código transforma registros dasométricos a nivel de árbol individual en pa
 * **Cubicación y Razón de Volumen:** Estimación del Volumen Total ($V/ha$) y del Volumen Comercial con diámetro límite de 10 cm ($V_{10}/ha$) mediante funciones de razón volumétrica.
 * **Reportes Automatizados:** Generación y exportación de un archivo Excel (`.xlsx`) estructurado en múltiples pestañas (`Resultados` y `Datos`) utilizando el motor de `openxlsx`.
 
-## 🛠️ Requisitos e Instalación
+## Paquetes e Instalación
 
 Para ejecutar este script, necesitas contar con un entorno de R o RStudio y tener instaladas las siguientes librerías de manipulación de datos y manejo de hojas de cálculo:
 
